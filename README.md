@@ -3,7 +3,11 @@
 -------------------------------------------------
 ### "Distributed Analytics, from Jupyter Notebook, via Dask on GKE"
 
-##### NOTE: assumes you've either installed gcloud cli locally and setup credentials OR you're using Google Cloud Shell.
+##### NOTE:
+```
+assumes you've either installed gcloud cli locally and setup credentials OR you're using Google Cloud Shell.
+```
+
 ##### NOTE:
 ```
 replace <project-id> and <region> with you're specific values throughout the following instructions.
@@ -12,7 +16,10 @@ replace <project-id> and <region> with you're specific values throughout the fol
 
 #### Jupyter Notebook
 
-###### NOTE: There is a "<project-id>" in jupyter-gcs-bq.ipynb that needs to be replaced with your specific value.
+###### NOTE:
+```
+There is a "<project-id>" in jupyter-gcs-bq.ipynb that needs to be replaced with your specific value.
+```
 
 ###### NOTE: The 3 main operations within ```jupyter-gcs-bq```
 - querying a BigQuery Table via ```google-cloud-bigquery```
@@ -78,7 +85,7 @@ gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account j
 ```
 
 ##### 3. Add IAM Roles to Existing Service Accounts
-- -----> **jupyter-bigquery-gcs@<project-id>.iam.gserviceaccount.com**
+- -----> `jupyter-bigquery-gcs@<project-id>.iam.gserviceaccount.com`
 - **```BigQuery Data Owner```** =>
 	```
 	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/bigquery.dataOwner'
@@ -97,7 +104,7 @@ gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account j
 	```
 	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/storage.objectViewer'
 	```
-- -----> **example-cluster-sa@<project-id>.iam.gserviceaccount.com**
+- -----> `example-cluster-sa@<project-id>.iam.gserviceaccount.com`
 - **```Storage Object Viewer```** =>
 
 	```
