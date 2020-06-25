@@ -3,20 +3,16 @@
 -------------------------------------------------
 ### "Distributed Analytics, from Jupyter Notebook, via Dask on GKE"
 
-##### NOTE:
-assumes you've either installed gcloud cli locally and setup credentials OR you're using Google Cloud Shell.
+##### NOTE: assumes you've either installed gcloud cli locally and setup credentials OR you're using Google Cloud Shell.
 
 
-##### NOTE:
-replace `<project-id>` and `<region>` with you're specific values throughout the following instructions.
+##### NOTE: replace `<project-id>` and `<region>` with you're specific values throughout the following instructions.
 
 -------------------------------------------------
 
 #### Jupyter Notebook
 
-###### NOTE:
-
-There is a `"<project-id>"` in jupyter-gcs-bq.ipynb that needs to be replaced with your specific value.
+###### NOTE: There is a `"<project-id>"` in jupyter-gcs-bq.ipynb that needs to be replaced with your specific value.
 
 
 ###### NOTE: The 3 main operations within ```jupyter-gcs-bq```
