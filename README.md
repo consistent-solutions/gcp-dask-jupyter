@@ -17,11 +17,7 @@
 - loading a Dask Dataframe with csv data from GCS bucket via ```dask.distributed```, ```dask.dataframe``` and ```pandas``` (used internally for dask)
 ###### NOTE: Run each cell individually with (it selected)```CTRL+ENTER```   
 ###### NOTE: Click "play" button to execute and move to next cell.
--------------------------------------------------
 
-#### Dask Workloads
-
--------------------------------------------------
 
 #### GKE Infrastructure
 
@@ -65,7 +61,7 @@ For context, this repo will outline setup instructions with gshell  https://gith
 - finally, click ```tlc_yellow_trips_2018``` Table
 
 ##### 4. Click "COPY TABLE" ####
-- <describe or provide picture>
+- `<describe or provide picture>``
 - fill out form (selecting ```new_york_taxi_trips``` Dataset created in step 2 and name the new Table ```tlc_yellow_trips_2018```), and click "COPY"
 -------------------------------------------------
 
@@ -73,22 +69,46 @@ For context, this repo will outline setup instructions with gshell  https://gith
 ##### 1. Create IAM Service Account
 - ```gcloud iam service-accounts create jupyter-bigquery-gcs --display-name 'jupyter-gcs-bq'```
 ##### 2. Create SA Credentials File
-- gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account jupyter-bigquery-gcs@~~<project-id>~~.iam.gserviceaccount.com
+
+```
+gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account jupyter-bigquery-gcs@~~<project-id>~~.iam.gserviceaccount.com
+```
+
 ##### 3. Add IAM Roles to Existing Service Accounts
 - -----> **jupyter-bigquery-gcs@~~<project-id>~~.iam.gserviceaccount.com**
 - **```BigQuery Data Owner```** =>
-	- gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.dataOwner'
+	```
+	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.dataOwner'
+	```
 - **```BigQuery Job User```** =>
-	- gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.jobUser'
+	```
+	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.jobUser'
+	```
 - **```Storage Object Creator```** =>
-	- gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectCreator'
+
+	```
+	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectCreator'
+	```
 - **```Storage Object Viewer```** =>
-	- gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+
+	```
+	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+	```
 - -----> **example-cluster-sa@~~<project-id>~~.iam.gserviceaccount.com**
 - **```Storage Object Viewer```** =>
-	- gcloud projects addd-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:example-cluster-sa@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+
+	```
+	gcloud projects addd-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:example-cluster-sa@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+	```
 
 -------------------------------------------------
+
+-------------------------------------------------
+
+#### Dask Workloads
+
+-------------------------------------------------
+
 
 ### Install Helm
 ##### 1. Install from script (https://helm.sh/docs/intro/install/)
@@ -101,9 +121,12 @@ For context, this repo will outline setup instructions with gshell  https://gith
 ### Install and enable Web Preview of Dask UIs & Jupyter Notebook
 #### NOTE: will need to ```$ ps``` and ```$ kill #``` to free up ports afterwards
 ##### 1. Install Dask via Helm
-- ```helm install dask-example dask/dask -n default --set jupyter.ingress.enabled=false --set webUI.ingress.enabled=
+
+```
+helm install dask-example dask/dask -n default --set jupyter.ingress.enabled=false --set webUI.ingress.enabled=
 false --set jupyter.serviceType=NodePort --set scheduler.serviceType=NodePort --set jupyter.extraConfig="c.NotebookApp.allow_origin_pat='.*-dot-devshell.appspot.com$'" --set worker.env[0].name="EXTRA_PIP
-_PACKAGES" --set worker.env[0].value="gcsfs"```
+_PACKAGES" --set worker.env[0].value="gcsfs"
+```
 
 ##### 2. Kubectl port-forward Dask UIs ```jupyter``` & ```scheduler```
 - ```kubectl port-forward $(kubectl get po -n default -o name -l component=jupyter) -n default 3000:8888 &```
@@ -113,7 +136,10 @@ _PACKAGES" --set worker.env[0].value="gcsfs"```
 - ```kubectl cp jupyter-bq-gcs-cred.json default/$(kubectl get po -l component=jupyter -n default -o name | cut -d '/' -f 2):/home/jovyan/jupyter-bq-gcs-cred.json```
 
 #### 7) Create a GCS bucket named ```jupyter-gcs-bq```
-- gsutil mb -p ~~<project-id>~~ -c STANDARD -l ~~<region>~~ -b on gs://jupyter-gcs-bq
+
+```
+gsutil mb -p ~~<project-id>~~ -c STANDARD -l ~~<region>~~ -b on gs://jupyter-gcs-bq
+```
 
 #### 8) Open "Web Preview" on port 3000 for ```jupyter``` ui
 - password is ```dask```
