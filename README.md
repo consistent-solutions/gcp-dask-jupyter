@@ -4,7 +4,10 @@
 ### "Distributed Analytics, from Jupyter Notebook, via Dask on GKE"
 
 ##### NOTE: assumes you've either installed gcloud cli locally and setup credentials OR you're using Google Cloud Shell.
-##### NOTE: replace <project-id> and <region> with you're specific values throughout the following instructions.
+##### NOTE:
+```
+replace <project-id> and <region> with you're specific values throughout the following instructions.
+```
 -------------------------------------------------
 
 #### Jupyter Notebook
@@ -71,34 +74,34 @@ For context, this repo will outline setup instructions with gshell  https://gith
 ##### 2. Create SA Credentials File
 
 ```
-gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account jupyter-bigquery-gcs@~~<project-id>~~.iam.gserviceaccount.com
+gcloud iam service-accounts keys create jupyter-bq-gcs-cred.json --iam-account jupyter-bigquery-gcs@<project-id>.iam.gserviceaccount.com
 ```
 
 ##### 3. Add IAM Roles to Existing Service Accounts
-- -----> **jupyter-bigquery-gcs@~~<project-id>~~.iam.gserviceaccount.com**
+- -----> **jupyter-bigquery-gcs@<project-id>.iam.gserviceaccount.com**
 - **```BigQuery Data Owner```** =>
 	```
-	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.dataOwner'
+	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/bigquery.dataOwner'
 	```
 - **```BigQuery Job User```** =>
 	```
-	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/bigquery.jobUser'
+	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/bigquery.jobUser'
 	```
 - **```Storage Object Creator```** =>
 
 	```
-	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectCreator'
+	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/storage.objectCreator'
 	```
 - **```Storage Object Viewer```** =>
 
 	```
-	gcloud projects add-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:jupyter-to-bigquery@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+	gcloud projects add-iam-policy-binding <project-id> --member=serviceAccount:jupyter-to-bigquery@<project-id>.iam.gserviceaccount.com --role='roles/storage.objectViewer'
 	```
-- -----> **example-cluster-sa@~~<project-id>~~.iam.gserviceaccount.com**
+- -----> **example-cluster-sa@<project-id>.iam.gserviceaccount.com**
 - **```Storage Object Viewer```** =>
 
 	```
-	gcloud projects addd-iam-policy-binding ~~<project-id>~~ --member=serviceAccount:example-cluster-sa@~~<project-id>~~.iam.gserviceaccount.com --role='roles/storage.objectViewer'
+	gcloud projects addd-iam-policy-binding <project-id> --member=serviceAccount:example-cluster-sa@<project-id>.iam.gserviceaccount.com --role='roles/storage.objectViewer'
 	```
 
 -------------------------------------------------
@@ -138,7 +141,7 @@ _PACKAGES" --set worker.env[0].value="gcsfs"
 #### 7) Create a GCS bucket named ```jupyter-gcs-bq```
 
 ```
-gsutil mb -p ~~<project-id>~~ -c STANDARD -l ~~<region>~~ -b on gs://jupyter-gcs-bq
+gsutil mb -p <project-id> -c STANDARD -l <region> -b on gs://jupyter-gcs-bq
 ```
 
 #### 8) Open "Web Preview" on port 3000 for ```jupyter``` ui
